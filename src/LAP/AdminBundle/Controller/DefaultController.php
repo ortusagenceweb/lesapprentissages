@@ -116,30 +116,6 @@ class DefaultController extends Controller
         $listes = $inject->miniListes( $util['id'] );
 		
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-			/* Email sending */
-			/*$titre = $form["titre"]->getData();
-			$auteur = $form["auteur"]->getData();
-			$dateCrea = $form["dateCrea"]->getData();
-			$datePub = $form["datePub"]->getData();
-			$active = $form["active"]->getData();
-			$texte = $form["texte"]->getData();
-			$image = $form["image"]->getData();
-			
-			$name = $auteur;
-			$message = \Swift_Message::newInstance()
-				->setSubject('Un article a été posté')
-				->setFrom('contact@ecoledesapprentissages.fr')
-				->setTo('contact@ecoledesapprentissages.fr')
-				->setBody(
-					$this->renderView(
-						'Email/articleposte.html.twig',
-						array( 'titre' => $titre, 'auteur' => $auteur, 'dateCrea' => $dateCrea, 'texte' => $texte )
-					),
-					'text/html',
-					'iso-8859-2'
-				)
-			;
-			$this->get('mailer')->send($message);*/
 			
 			$em = $this->getDoctrine()->getManager();
 			$em->persist($article);
