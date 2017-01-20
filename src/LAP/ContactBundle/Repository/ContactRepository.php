@@ -54,7 +54,7 @@ class ContactRepository extends \Doctrine\ORM\EntityRepository
 			->setParameter('id', $id)
 			->setMaxResults(1);
 
-		$results = $query->getSingleResult();
+		$results = $query->getOneOrNullResult();
 		
 		return $results;
 	}
