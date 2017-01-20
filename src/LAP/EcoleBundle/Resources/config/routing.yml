@@ -1,0 +1,3 @@
+lap_ecole_homepage:
+    path:     /ecole
+    defaults: { _controller: LAPEcoleBundle:Default:index }

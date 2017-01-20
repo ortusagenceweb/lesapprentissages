@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-sclae=1">
+		
+		<title>{% block title %}Les Apprentis-Sages{% endblock %}</title>
+		
+		{% block stylesheets %}
+		<link rel="stylesheet" href="{{ asset('css/styles.css') }}" />
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aref+Ruqaa|Dancing+Script">
+		{% endblock %}
+	</head>
+	<body>
+		<header>
+			<div id="entete">
+				<div id="conteneur_logo_menu">
+					<div id="logo"><img src="{{ asset('images/Logo-final-1.png') }}" alt="logo les apprentis-sages" /></div>
+					<div id="menu">
+						<nav>
+							<ul>
+								<li id="ecart_css_1"></li>
+								<li id="home"><a href="{{ path('lap_accueil_homepage') }}">Accueil</a></li>
+								<li id="blog"><a href="{{ path('lap_blog_homepage') }}">Blog</a></li>								
+								<li id="ecole"><a href="{{ path('lap_ecole_homepage') }}">L'école</a></li>
+								<li id="ecart_css_2"></li>
+								<li id="equipe"><a href="{{ path('lap_equipe_homepage') }}">L'équipe</a></li>								
+								<li id="infos"><a href="{{ path('lap_infos_homepage') }}">Infos</a></li>								
+								<li id="contact"><a href="{{ path('lap_contact_homepage') }}">Contact</a></li>
+							</ul>
+						</nav>
+					</div>
+					<div id="pictos_media"><a href="https://www.facebook.com/ecolelesapprentissages/" target="_blank"><img src="{{ asset('images/pictos/picto-fb-web.png') }}" alt="Voir notre page Facebook !" /></a></div>
+				</div>
+			</div>
+		</header>
+		{% block body %}
+		{% endblock %}
+		
+		{% block javascripts %}
+			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+			<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+			<script type="text/javascript">
+			var str = $(location).attr('pathname');
+			if( str.includes( 'blog' ) ) {
+				jQuery( function() {
+					$("#blog_content div p img").width('33%');
+					$("#blog_content div p img").height('33%');
+				} );
+			}
+			if( str.includes( 'article' ) ) {
+				jQuery( function() {
+					$("#blog_content div p img").width('100%');
+					$("#blog_content div p img").height('100%');
+				} );
+			}
+			</script>
+		{% endblock %}
+	</body>
+</html>

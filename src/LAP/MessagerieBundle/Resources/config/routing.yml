@@ -1,0 +1,21 @@
+lap_messagerie_homepage:
+    path:     /admin/messagerie
+    defaults: { _controller: LAPMessagerieBundle:Default:index }
+
+lap_messagerie_viewmessage:
+    path:    /admin/messagerie/view/{id}
+    defaults:
+        _controller: LAPMessagerieBundle:Default:viewmessage
+    requirements:
+        id: \d+
+
+lap_messagerie_write:
+    path: /admin/messagerie/write
+    defaults: { _controller: LAPMessagerieBundle:Default:write }
+
+lap_messagerie_delete:
+    path: /admin/messagerie/delete/{id}
+    defaults:
+        _controller: LAPMessagerieBundle:Default:delete
+    requirements:
+        id: \d+

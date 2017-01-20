@@ -1,0 +1,44 @@
+lap_admin_homepage:
+    path:     /admin
+    defaults: { _controller: LAPAdminBundle:Default:index }
+
+lap_admin_add:
+    path: /admin/add
+    defaults: { _controller: LAPAdminBundle:Default:add }
+
+lap_admin_edit:
+    path: /admin/edit/{id}
+    defaults:
+        _controller: LAPAdminBundle:Default:edit
+    requirements:
+        id: \d+
+
+lap_admin_delete:
+    path: /admin/delete/{id}
+    defaults:
+        _controller: LAPAdminBundle:Default:delete
+    requirements:
+        id: \d+
+
+lap_admin_viewarticles:
+    path: /admin/viewarticles
+    defaults: { _controller: LAPAdminBundle:Default:viewarticles }
+
+lap_admin_viewmessage:
+    path: /admin/viewmessage/{id}
+    defaults:
+        _controller: LAPAdminBundle:Default:viewmessage
+        id: 1
+    requirements:
+        id: \d+
+
+lap_admin_profile:
+    path: /admin/profile
+    defaults: { _controller: LAPAdminBundle:Default:profile }
+
+lap_admin_editprofile:
+    path: /admin/editprofile/{id}
+    defaults:
+        _controller: LAPAdminBundle:Default:editprofile
+    requirements:
+        id: \d+

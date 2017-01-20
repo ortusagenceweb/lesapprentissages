@@ -1,0 +1,14 @@
+lap_notifications_homepage:
+    path:     /notifications
+    defaults: { _controller: LAPNotificationsBundle:Default:index }
+
+lap_notifications_viewnotif:
+    path:     /notifications/viewnotif/{id}
+    defaults:
+        _controller: LAPNotificationsBundle:Default:viewnotif
+    requirements:
+        id: \d+
+
+lap_notifications_write:
+    path: /notifications/add
+    defaults: { _controller: LAPNotificationsBundle:Default:add }

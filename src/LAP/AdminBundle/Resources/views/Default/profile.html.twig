@@ -1,0 +1,59 @@
+{% extends 'LAPAdminBundle::layout.html.twig' %}
+
+{% block title %}
+	{{ parent() }} - Mon profil
+{% endblock %}
+
+{% block body %}
+<section id="container" >
+{{ include("LAPAdminBundle:Default:entete.html.twig") }}
+<section id="main-content">
+          <section class="wrapper">
+              <div class="row mt">
+          		<div class="col-lg-6">
+                  <div class="form-panel">
+				  {% for utilisateur in usr %}
+					<div class="floatR"><img src="{{ asset(utilisateur.picture) }}" alt="{{ utilisateur.name }} {{ utilisateur.surname }}" /></div>
+                  	  <h4 class="mb"><i class="fa fa-angle-right"></i> Bonjour, {{ utilisateur.name|capitalize }} {{ utilisateur.surname|capitalize }} <span class="badge bg-warning"><i class="fa fa-star"></i> 50</span></h4>
+					  {% if utilisateur.active == 0 %}
+						<div class="alert alert-danger"><i class="fa fa-warning fa-2x"></i> Votre compte a été désactivé. Contactez l'administrateur du site pour en savoir plus.</div>
+					  {% endif %}
+					  <p class="alert alert-warning"><i class="fa fa-id-badge fa-2x"></i> Retrouvez ci-dessous l'ensemble des informations vous concernant :</p>
+						<div>
+							<i class="fa fa-user-circle-o"></i> <label><h5>Votre nom d'utilisateur est :</h5></label>
+							{{ utilisateur.username }}
+						</div>
+						<div>
+							<i class="fa fa-gear"></i> <label><h5>Vous avez le rôle de :</h5></label>
+							{{ utilisateur.roles[0][5:] }}
+						</div>
+						<div>
+							<i class="fa fa-birthday-cake"></i> <label><h5>Vous êtes né(e) le :</h5></label>
+							{{ utilisateur.dateBirth|date('d/m/Y') }}
+						</div>
+						<div>
+							<i class="fa fa-check"></i> <label><h5>Vous êtes inscrit(e) depuis le :</h5></label>
+							{{ utilisateur.dateCrea|date('d/m/Y') }}
+						</div>
+						<div>
+							<i class="fa fa-address-book-o"></i> <label><h5>Votre adresse est :</h5></label>
+							{{ utilisateur.adress }} {{ utilisateur.postalcode }} {{ utilisateur.city|capitalize }} en {{ utilisateur.country|capitalize }}
+						</div>
+						<div>
+							<i class="fa fa-phone"></i> <label><h5>On peut vous appeler au :</h5></label>
+							{{ utilisateur.phone }}
+						</div>
+						<div>
+							<i class="fa fa-key"></i> <label><h5>La dernière fois que vous êtes venu(e) c'était le :</h5></label>
+							{{ utilisateur.dateLastconnexion|date('d/m/Y H:i:s') }}
+						</div>
+						<div>
+							<form action="{{ path('lap_admin_editprofile', {'id': utilisateur.id}) }}" method="post"><button class="btn btn-info" type="submit"><i class="fa fa-edit"></i> Modifier mes informations</button>
+						</div>
+				  {% endfor %}
+				  </div>
+				</div>
+			  </div>
+		  </section>
+</section>
+{% endblock %}

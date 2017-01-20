@@ -1,0 +1,189 @@
+{% extends 'LAPAdminBundle::layout.html.twig' %}
+
+{% block title %}
+	{{ parent() }} - Accueil
+{% endblock %}
+
+{% block body %}
+<section id="container" >
+		{{ include("LAPAdminBundle:Default:entete.html.twig") }}
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+      <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">
+				{% for message in app.session.flashbag.get('notice') %}
+					<div class="row mt">
+						<div class="col-md-12">
+							<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>{{ message }}</div>
+						</div>
+					</div>
+				{% endfor %}
+              <div class="row">
+                  <div class="col-lg-9 main-chart">                  
+                  	<!--<div class="row mtbox">
+                  		<div class="col-md-2 col-sm-2 col-md-offset-1 box0">
+                  			<div class="box1">
+					  			<span class="li_heart"></span>
+					  			<h3>933</h3>
+                  			</div>
+					  			<p>933 People liked your page the last 24hs. Whoohoo!</p>
+                  		</div>
+                  		<div class="col-md-2 col-sm-2 box0">
+                  			<div class="box1">
+					  			<span class="li_cloud"></span>
+					  			<h3>+48</h3>
+                  			</div>
+					  			<p>48 New files were added in your cloud storage.</p>
+                  		</div>
+                  		<div class="col-md-2 col-sm-2 box0">
+                  			<div class="box1">
+					  			<span class="li_stack"></span>
+					  			<h3>23</h3>
+                  			</div>
+					  			<p>You have 23 unread messages in your inbox.</p>
+                  		</div>
+                  		<div class="col-md-2 col-sm-2 box0">
+                  			<div class="box1">
+					  			<span class="li_news"></span>
+					  			<h3>+10</h3>
+                  			</div>
+					  			<p>More than 10 news were added in your reader.</p>
+                  		</div>
+                  		<div class="col-md-2 col-sm-2 box0">
+                  			<div class="box1">
+					  			<span class="li_data"></span>
+					  			<h3>OK!</h3>
+                  			</div>
+					  			<p>Your server is working perfectly. Relax & enjoy.</p>
+                  		</div>
+                  	
+                  	</div><-- /row mt -->	
+                  
+					<div class="row mt">
+					<div class="col-md-12">
+                      <div class="content-panel">
+                          <table class="table table-striped table-advance table-hover">
+	                  	  	  <h4><i class="fa fa-angle-right"></i> 10 derniers articles du blog</h4><a href="{{ path('lap_admin_add') }}" class="btn btn-theme pull-right remonte01"><i class="fa fa-check"></i> Ajouter un article</a>
+	                  	  	  <hr>
+                              <thead>
+                              <tr>
+                                  <th><i class="fa fa-bullhorn"></i> Titre</th>
+                                  <th class="hidden-phone"><i class="fa fa-question-circle"></i> Résumé</th>
+								  <th><i class="fa fa-bookmark"></i> Date publication</th>
+                                  <th><i class="fa fa-edit"></i> Statut</th>
+                                  <th></th>
+                              </tr>
+                              </thead>
+                              <tbody>
+							  {% for article in listeArticles %}
+                              <tr>
+                                  <td><a href="{{ path('lap_admin_edit', { 'id': article.id }) }}">{{ article.titre }}</a></td>
+                                  <td class="hidden-phone hide-img">{{ article.texte|raw }}...</td>
+								  <td>{{ article.datePub|date('d/m/Y') }}</td>
+                                  <td><span class="label label-{% if article.active == 1 %}success{% else %}warning{% endif %} label-mini">{% if article.active == 1 %}Actif{% else %}Inactif{% endif %}</span></td>
+                                  <td class="width150">
+									  {% if article.active == 0 %}
+										<form action="{{ path('lap_admin_homepage', {'id': article.id, 'act': 'active'}) }}" method="post" class="petitForm"><button class="btn btn-success btn-xs" type="submit"><i class="fa fa-check"></i></button>
+									  {% elseif article.active == 1 %}
+										<form action="{{ path('lap_admin_homepage', {'id': article.id, 'act': 'unactive'}) }}" method="post" class="petitForm"><button class="btn btn-warning btn-xs" type="submit"><i class="fa fa-times"></i></button>
+									  {% endif %}
+									  </form>
+                                      <a href="{{ path('lap_admin_edit', { 'id': article.id }) }}" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                      {% if is_granted('ROLE_SUPERADMIN') %}<a href="{{ path('lap_admin_delete', { 'id': article.id }) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>{% endif %}
+                                  </td>
+                              </tr>
+							  {% endfor %}
+                              </tbody>
+                          </table>
+                      </div><!-- /content-panel -->
+					</div>
+					</div>
+					
+					<div class="row mt">
+					<div class="col-md-12">
+                      <div class="content-panel">
+                          <table class="table table-striped table-advance table-hover">
+	                  	  	  <h4><i class="fa fa-angle-right"></i> 10 derniers messages reçus sur le site</h4>
+	                  	  	  <hr>
+                              <thead>
+                              <tr>
+                                  <th><i class="fa fa-bullhorn"></i> Objet</th>
+                                  <th class="hidden-phone"><i class="fa fa-question-circle"></i> Résumé</th>
+								  <th><i class="fa fa-bookmark"></i> Date réception</th>
+                                  <th><i class="fa fa-edit"></i> Contact</th>
+                                  <th></th>
+                              </tr>
+                              </thead>
+                              <tbody>
+							  {% for message in listLastmessages %}
+                              <tr>
+                                  <td>{% if message.traite == 1 %}<i class="fa fa-envelope-open-o"></i> {% else %}<i class="fa fa-envelope"></i> {% endif %}<a href="{{ path('lap_admin_viewmessage', { 'id': message.id }) }}">{{ message.choix }}</a></td>
+                                  <td class="hidden-phone hide-img">{{ message.texte|raw }}...</td>
+								  <td>{{ message.dateContact|date('d/m/Y') }}</td>
+                                  <td>{{ message.prenom|capitalize }} {{ message.nom|capitalize }}</td>
+                                  <td class="width150">
+                                      <a href="{{ path('lap_admin_viewmessage', { 'id': message.id }) }}" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i></a>
+                                      {% if is_granted('ROLE_SUPERADMIN') %}<a href="{{ path('lap_admin_delete', { 'id': message.id }) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>{% endif %}
+                                  </td>
+                              </tr>
+							  {% endfor %}
+                              </tbody>
+                          </table>
+                      </div><!-- /content-panel -->
+					</div>
+					</div>
+					
+					<div class="row mt">
+					<div id="overlay"><i class="fa fa-cog fa-spin fa-3x fa-fw calendarCharge"></i></div>
+						<div class="col-md-12">
+							<div class="content-panel" style="padding: 10px 20px;">
+								{% include '@FullCalendar/Calendar/calendar.html.twig' %}
+							</div>
+						</div>
+					</div>
+                  </div><!-- /col-lg-9 END SECTION MIDDLE -->
+                  
+                  
+      <!-- **********************************************************************************************************************************************************
+      RIGHT SIDEBAR CONTENT
+      *********************************************************************************************************************************************************** -->                  
+                  
+                  <div class="col-lg-3 ds">
+                    <!--NOTIFICATIONS-->
+						<h3>NOTIFICATIONS</h3>
+                      {% for notif in listeLast5notifs %}
+					  <div class="desc">
+                      	<div class="thumb">
+                      		<span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
+                      	</div>
+                      	<div class="details">
+                      		<p><muted>Le {{ notif.dateNotif|date('d/m/Y') }}</muted><br/>
+                      		   <a href="{{ path('lap_notifications_viewnotif', {'id': notif.id}) }}">{{ notif.username|capitalize }}</a> {{ notif.titre|capitalize }}<br/>
+                      		</p>
+                      	</div>
+                      </div>
+					  {% endfor %}
+
+                       <!-- USERS SECTION -->
+						<h3>10 DERNIERS MEMBRES</h3>
+						{% for membre in allusers %}
+						<div class="desc">
+							<div class="thumb">
+								<img class="img-circle" src="{{ asset(membre.picture) }}" width="35px" height="35px" align="">
+							</div>
+							<div class="details">
+								<p><a href="{{ path('lap_utilisateur_viewuser', {'id': membre.id}) }}">{{ membre.name|capitalize }} {{ membre.surname|capitalize  }}</a><br />Membre depuis le {{ membre.datecrea|date("d/m/Y") }}<br/><muted>{% for role in app.user.roles %}{{ role[5:] }}{% endfor %}</muted>
+								</p>
+							</div>
+						</div>
+						{% endfor %}
+                      
+                  </div><!-- /col-lg-3 -->
+              </div><! --/row -->
+          </section>
+      </section>
+</section>
+{% endblock %}

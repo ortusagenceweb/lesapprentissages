@@ -1,0 +1,26 @@
+{% extends '::layout.html.twig' %}
+
+{% block title %}
+	{{ parent() }} - Informations
+{% endblock %}
+
+{% block body %}
+	<section id="corps_blog">
+		<div id="infos_content">
+			<div>
+				<h1>Inscription</h1>
+				<img src="" alt="" /><h2>Critères d'admission</h2><p>A chaque rentrée de vacances scolaires, l’École Dynamique admet des nouveaux membres à partir de 5 ans, du moment que la famille et le futur membre adhèrent au projet pédagogique de l’École Dynamique. Il se peut que nous nous sentions dans l’impossibilité d’admettre un nouveau membre s'il n'est pas suffisamment autonome, ou n'a pas la capacité suffisante à respecter notre règlement.</p><h2>Frais de scolarité</h2><p>La cotisation annuelle à l'association est de 175€ et les frais de scolarité à 4825€, ce qui porte le coût total d'une inscription à 5000€ annuels. Il y a une réduction de 1000€ pour le deuxième membre d'une fratrie, 2000€ pour le troisième membre.</p><h2>Processus d'admission</h2><p>
+					<ol>
+						<li>Demandez de rendez-vous : nous vous invitons à remplir ce formulaire. Notre responsable Admissions vous contactera durant la semaine du 28 novembre pour convenir d'un rendez-vous entre le lundi 5 et le mercredi 14 décembre.</li>
+						<li>Rendez-vous d'admission : lors de ce rendez-vous, vous aurez l'occasion de rencontrer un ou deux membres de l'école (habituellement un adulte et un ado) qui vous feront visiter nos locaux et répondront à vos questions. Nous avons besoin de la présence des deux parents.</li>
+						<li>Remise du dossier d'inscription rempli.</li>
+						<li>Période d’essai de deux semaines : le nouveau membre passe deux semaines chez nous du mardi 3 au lundi 16 janvier pour que le membre et l'école puissent décider s'ils souhaitent continuer l'aventure ensemble. Le premier jour de la période d'essai, la famille nous remet un règlement de 325€, ainsi que le dossier d'inscription rempli.</li>
+						<li>Rendez-vous de fin de période d'essai : la famille et l'école se réunissent une nouvelle fois pour finaliser l'inscription du nouveau membre. La famille nous remet un chèque de 175€ de cotisation pour l’inscription du nouveau membre à notre association.</li>
+						<li>Règlement des frais de scolarité : suite au règlement de la période d'essai (325€) et de la cotisation (175€), il restera 4500€ de frais de scolarité à régler sur cette première année scolaire, qui seront ajustés au pro-rata selon la semaine d'arrivée du nouveau membre. Vous déciderez d'un échéancier de paiement avec notre responsable des Finances.</li>
+					</ol>
+				</p>
+			</div>
+		</div>
+	{{ include("LAPAccueilBundle:Accueil:footer.html.twig") }}
+	</section>
+{% endblock %}

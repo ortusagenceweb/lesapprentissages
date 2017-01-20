@@ -1,0 +1,188 @@
+	  <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+      <header class="header black-bg">
+              <div class="sidebar-toggle-box">
+                  <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+              </div>
+            <!--logo start-->
+            <a href="{{ path('lap_admin_homepage') }}" class="logo"><b>LES APPRENTIS SAGES | ADMIN</b></a>
+            <!--logo end-->
+            <div class="nav notify-row" id="top_menu">
+                <!--  notification start -->
+                <ul class="nav top-menu">
+                    <!-- Todolist start -->
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
+                            <i class="fa fa-list"></i>
+                            <span class="badge bg-theme">5</span>
+                        </a>
+                        <ul class="dropdown-menu extended tasks-bar">
+                            <div class="notify-arrow notify-arrow-green"></div>
+                            <li>
+                                <p class="green">Les 5 dernières tâches en cours</p>
+                            </li>
+                            {% for task in list5LastTasks %}
+                            <li>
+                                <div class="task-info padding10andBorder">
+                                    <div class="desc">
+                                        {%   if task.isdone == 1 %}<span class="">(Fini)</span>{% else %}
+                                            {% if task.intervall[1:] == 0 %}
+                                                <span class="label label-primary">Aujourd'hui !</span>
+                                            {% else %}
+                                                {% if task.intervall|slice(0,1) == "-" %}
+                                                    <span class="label {% if task.intervall[1:] > 7 and task.intervall[1:] < 29 %}label-info{% elseif task.intervall[1:] > 29 %}label-success{%  else %}label-warning{%  endif %}">Encore {{ task.intervall[1:] }} jours</span>
+                                                {%  else %}
+                                                    <span class="label {% if task.intervall[1:] > 7 and task.intervall[1:] < 29 %}label-danger{% elseif task.intervall[1:] > 29 %}label-inverse{% else %}label-warning{%  endif %}"><i class="fa fa-warning"></i> Dépassé de {{ task.intervall[1:] }} jours</span>
+                                                {%  endif %}
+                                            {% endif %}
+                                        {% endif %} <span class="task-title-sp">{{ task.titre|capitalize }}</span><br /><em>par {{ task.username|capitalize }} (le {{ task.dateCrea|date('d-m-Y') }})</em>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                            <li class="external">
+                                <a href="{{ path('lap_todo_homepage') }}">Voir toutes les tâches</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Todolist end -->
+                    <!-- settings start -->
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
+                            <i class="fa fa-bell"></i>
+                            <!--<span class="badge bg-theme">4</span>-->
+                        </a>
+                        <ul class="dropdown-menu extended tasks-bar">
+                            <div class="notify-arrow notify-arrow-green"></div>
+                            <li>
+                                <p class="green">Vos 5 dernières notifications en cours</p>
+                            </li>
+							{% for notif in listeLast5notifs %}
+							<li>
+                                <a href="{{ path('lap_notifications_viewnotif', {'id': notif.id}) }}">
+                                    <div class="task-info">
+                                        <div class="desc">
+											{% if notif.statut == 1 %}<span class="label label-danger"><i class="fa fa-warning"> </i> {{ notif.statutname }}</span>
+											{% elseif notif.statut == 2 %}<span class="label label-warning"><i class="fa fa-star"> </i> {{ notif.statutname }}</span>
+											{% elseif notif.statut == 3 %}<span class="label label-info"><i class="fa fa-thumbs-o-up"> </i> {{ notif.statutname }}</span>
+											{% elseif notif.statut == 4 %}<span class="label label-default"><i class="fa fa-info"> </i> {{ notif.statutname }}</span>
+											{% elseif notif.statut == 5 %}<span class="label label-default"><i class="fa fa-lock"> </i> {{ notif.statutname }}</span>
+											{% endif %}<br />{{ notif.titre }}
+											<br /><em>Par {{ notif.username|capitalize }}</em>
+										</div>
+                                    </div>
+                                </a>
+                            </li>
+							{% endfor %}
+                            <li class="external">
+                                <a href="{{ path('lap_notifications_homepage') }}">Voir toutes les notifications</a>
+							</li>
+							<li class="external">
+								<a href="{{ path('lap_notifications_write') }}">Envoyer une notification</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- settings end -->
+                    <!-- inbox dropdown start-->
+                    <li id="header_inbox_bar" class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
+                            <i class="fa fa-envelope-o"></i>
+                            {% if listeLastmessagerie|length > 0 %}<span class="badge bg-theme">{{ listeLastmessagerie|length }}</span>{% endif %}
+                        </a>
+                        <ul class="dropdown-menu extended inbox" style="min-width: 200px !important">
+                            <div class="notify-arrow notify-arrow-green"></div>
+                            <li>
+                                <p class="green">Vous avez {{ listeLastmessagerie|length }} nouveau(x) message(s)</p>
+                            </li>
+							{% for message in listeLastmessagerie %}
+							<li>
+								<a href="{{ path('lap_messagerie_viewmessage', {'id': message.id}) }}">
+									<span class="photo"><img alt="avatar" src="{{ asset(message.picture) }}"></span>
+                                    <span class="subject">
+                                    <span class="from">{{ message.username }}</span>
+                                    <span class="time">{{ message.dateReception|date('d/m/Y') }}</span>
+                                    </span>
+                                    <span class="message">
+                                        {{ message.titre }}
+                                    </span>
+								</a>
+							</li>
+							{% endfor %}
+                            <li>
+                                <a href="{{ path('lap_messagerie_homepage') }}">Voir tous les messages</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- inbox dropdown end -->
+                </ul>
+				<div class="floatR-date">Nous sommes le {{ 'now'|date('d/m/Y') }}</div>
+                <!--  notification end -->
+            </div>
+            <div class="top-menu">
+            	<ul class="nav pull-right top-menu">
+                    <a href="{{ path('lap_accueil_homepage') }}" target="_blank" class="btn btn-primary pull-right descend-10"><i class="fa fa-eye"></i> Aller sur le site</a><a href="{{ path('logout') }}" class="btn btn-info pull-right descend-10 pousse10"><i class="fa fa-unlock"></i> Déconnexion</a>
+            	</ul>
+            </div>
+        </header>
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      {% set route = app.request.attributes.get('_route') %}
+      <aside>
+          <div id="sidebar"  class="nav-collapse ">
+              <!-- sidebar menu start-->
+              <ul class="sidebar-menu" id="nav-accordion">
+              	  <p class="centered"><a href="profile.html"><img src="{{ asset(picture) }}" class="img-circle" width="70"></a></p>
+              	  <h5 class="centered">Bonjour, {{ name|capitalize }} {{ surname|capitalize }}</h5>
+              	  	
+                  <li class="mt">
+                      <a {% if route is defined and route == 'lap_admin_homepage' %}class="active"{% endif %} href="{{ path('admin') }}">
+                          <i class="fa fa-dashboard"></i>
+                          <span>Accueil</span>
+                      </a>
+                  </li>
+				  
+				  <li class="sub-menu">
+                      <a href="javascript:;" {% if route is defined and route in ['lap_admin_viewarticles', 'lap_admin_edit', 'lap_admin_add', 'lap_admin_delete', 'lap_staticpages_homepage','lap_staticpages_viewpage'] %}class="active"{% endif %}>
+                          <i class="fa fa-tasks"></i>
+                          <span>Articles</span>
+                      </a>
+                      <ul class="sub">
+                          <li {% if route is defined and route in ['lap_admin_viewarticles', 'lap_admin_add', 'lap_admin_add', 'lap_admin_delete', 'lap_admin_edit'] %}class="active"{% endif %}><a  href="{{ path('lap_admin_viewarticles') }}">Articles du blog</a></li>
+                          <li {% if route is defined and route in ['lap_staticpages_homepage','lap_staticpages_viewpage'] %}class="active"{% endif %}><a  href="{{ path('lap_staticpages_homepage') }}">Pages statiques</a></li>
+                      </ul>
+                  </li>
+				  
+				  <li class="sub-menu">
+                      <a href="javascript:;" {% if route is defined and route in ['lap_notifications_homepage', 'lap_todolist_homepage', 'lap_calendar_homepage', 'lap_utilisateur_homepage'] %}class="active"{% endif %}>
+                          <i class="fa fa-cogs"></i>
+                          <span>Interface</span>
+                      </a>
+                      <ul class="sub">
+                          <li {% if route is defined and route in ['lap_notifications_homepage','lap_notifications_viewnotif','lap_notifications_write'] %}class="active"{% endif %}><a href="{{ path('lap_notifications_homepage') }}">Notifications</a></li>
+                          <li {% if route is defined and route in ['lap_todolist_homepage','lap_todo_addtask','lap_todo_deletetask'] %}class="active"{% endif %}><a href="{{ path('lap_todo_homepage') }}">Todo List</a></li>
+                          <li {% if route is defined and route in ['lap_calendar_homepage','lap_calendar_recup','lap_calendar_viewevent','lap_calendar_addevent','lap_calendar_editevent','lap_calendar_deleteevent'] %}class="active"{% endif %}><a href="{{ path('lap_calendar_homepage', {'route': 'calendar'}) }}">Calendrier</a></li>
+                          <li {% if route is defined and route in ['lap_utilisateur_homepage','lap_utilisateur_viewuser','lap_utilisateur_add'] %}class="active"{% endif %}><a href="{{ path('lap_utilisateur_homepage') }}">Membres</a></li>
+                      </ul>
+                  </li>
+				  
+				  <li class="sub-menu">
+                      <a href="javascript:;" {% if route is defined and route in ['lap_admin_profile', 'lap_admin_editprofile', 'lap_messagerie_homepage', 'lap_messagerie_viewmessage', 'lap_messagerie_write', 'lap_messagerie_delete'] %}class="active"{% endif %}>
+                          <i class="fa fa-user"></i>
+                          <span>Mon compte</span>
+                      </a>
+                      <ul class="sub">
+                          <li {% if route is defined and route in ['lap_admin_profile','lap_admin_editprofile'] %}class="active"{% endif %}><a  href="{{ path('lap_admin_profile') }}">Mon profil</a></li>
+                          <li {% if route is defined and route in ['lap_messagerie_homepage','lap_messagerie_viewmessage','lap_messagerie_write','lap_messagerie_delete'] %}class="active"{% endif %}><a  href="{{ path('lap_messagerie_homepage') }}">Ma messagerie</a></li>
+                      </ul>
+                  </li>
+              </ul>
+              <!-- sidebar menu end-->
+          </div>
+      </aside>
+      <!--sidebar end-->

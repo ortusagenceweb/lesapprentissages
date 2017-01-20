@@ -1,0 +1,4 @@
+services:
+#    lap_equipe.example:
+#        class: LAP\EquipeBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]

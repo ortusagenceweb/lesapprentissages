@@ -1,0 +1,4 @@
+services:
+#    lap_messagerie.example:
+#        class: LAP\MessagerieBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

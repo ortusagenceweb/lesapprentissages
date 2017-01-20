@@ -1,0 +1,18 @@
+{% extends '::layout.html.twig' %}
+
+{% block title %}
+	{{ parent() }} - Actualité : {{ article.titre }}
+{% endblock %}
+
+{% block body %}
+	<section id="corps_blog">
+		<div id="blog_content">
+			<div class="actu">
+				<h1>{{ article.titre }}</h1>
+				<p id="img_normale">{{ article.texte|raw }}</p><hr />
+				<p><em>Par {{ article.auteur }} le {{ article.dateCrea|date('d-m-Y') }}</em></p>
+			</div>
+		</div>
+	{{ include("LAPAccueilBundle:Accueil:footer.html.twig") }}
+	</section>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends '::layout.html.twig' %}
+
+{% block title %}
+	{{ parent() }} - L'équipe
+{% endblock %}
+
+{% block body %}
+	<section id="corps_blog">
+		<div id="equipe_content">
+			<div>
+				<h1>L'équipe</h1>
+				<img src="" alt="" /><p>Texte de présentation de l'équipe</p>
+				{% for membre in listeAllmembers %}
+					<div><h2>{{ membre.name|humanize|convert_encoding('UTF-8', 'HTML-ENTITIES')|raw }} {{ membre.surname|humanize|convert_encoding('UTF-8', 'HTML-ENTITIES')|raw }} - {# membre.statut|humanize|convert_encoding('UTF-8', 'HTML-ENTITIES')|raw #}</h2>
+					<img src="{{ asset(membre.picture) }}" alt="Membre {{ membre.name|humanize }} {{ membre.surname|humanize }}" /><p>{{ membre.presentation|raw }}</p></div><hr />
+				{% endfor %}
+			</div>
+		</div>
+	{{ include("LAPAccueilBundle:Accueil:footer.html.twig") }}
+	</section>
+{% endblock %}

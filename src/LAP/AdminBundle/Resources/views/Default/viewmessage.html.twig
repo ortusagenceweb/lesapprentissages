@@ -1,0 +1,38 @@
+{% extends 'LAPAdminBundle::layout.html.twig' %}
+
+{% block title %}
+	{{ parent() }} - Page d'admin
+{% endblock %}
+
+{% block body %}
+<section id="container" >
+{{ include("LAPAdminBundle:Default:entete.html.twig") }}
+<section id="main-content">
+          <section class="wrapper">
+              <div class="row mt">
+          		<div class="col-lg-6">
+                  <div class="form-panel">
+                  	  <h4 class="mb"><i class="fa fa-angle-right"></i> Message n&deg; {{ message.id }} reçu le {{ message.dateContact|date('d/m/Y') }}</h4>
+						<div><label><h4>Objet :</h4></label>
+						{{ message.choix }}</div>
+						<div><label><h4>Contact :</h4></label>
+						{{ message.nom|capitalize }} {{ message.prenom|capitalize }}</div>
+						<div><label><h4>Email :</h4></label>
+						{{ message.email }}</div>
+						<div><label><h4>N° de téléphone :</h4></label>
+						{{ message.telephone }}</div>
+						<div><label><h4>Message :</h4></label><br />
+						{{ message.texte }}</div><br />
+						<div>
+							{% if message.traite == 0 %}<form action="{{ path('lap_admin_viewmessage', {'id': message.id, 'act': 'traite'}) }}" method="post"><button class="btn btn-success" type="submit"><i class="fa fa-check"></i> Indiquer que le message a été traité</button>
+							{% else %}
+							<div class="alert alert-info">Ce message a été traité le {{ message.dateTraite|date('d/m/Y') }} par {{ message.username }}</div>
+							{% endif %}
+							<a href="{{ path('lap_admin_homepage') }}" class="btn btn-default pull-right"><i class="fa fa-arrow-left"></i> Retour aux messages</a>
+						</div>
+				  </div>
+				</div>
+			  </div>
+		  </section>
+</section>
+{% endblock %}

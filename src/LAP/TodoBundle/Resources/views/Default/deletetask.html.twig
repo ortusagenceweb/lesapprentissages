@@ -1,0 +1,29 @@
+{% extends 'LAPAdminBundle::layout.html.twig' %}
+
+{% block title %}
+	{{ parent() }} - Supprimer une tâche
+{% endblock %}
+
+{% block body %}
+<section id="container" >
+{{ include("LAPAdminBundle:Default:entete.html.twig") }}
+<section id="main-content">
+          <section class="wrapper">
+              <div class="row mt">
+          		<div class="col-lg-6">
+                  <div class="form-panel">
+                  	  <h4 class="mb"><i class="fa fa-angle-right"></i> Supprimer une tâche</h4>
+					  <p><h3>Voulez-vous vraiment supprimer cette tâche ?</h3></p>
+					  <p>&nbsp;</p>
+						<form action="{{ path('lap_todo_deletetask', {'id': task.id}) }}" method="post">
+							<a href="{{ path('lap_todo_homepage') }}" class="btn btn-default">
+							<i class="glyphicon glyphicon-chevron-left"></i>Retour aux tâches</a>
+							<input type="submit" value="Supprimer" class="btn btn-danger" />
+							{{ form_rest(form) }}
+						</form>
+				  </div>
+				</div>
+			  </div>
+		  </section>
+</section>
+{% endblock %}

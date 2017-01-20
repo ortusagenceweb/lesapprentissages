@@ -1,0 +1,98 @@
+lap_todo:
+    resource: "@LAPTodoBundle/Resources/config/routing.yml"
+    prefix:   /
+
+lap_calendar:
+    resource: "@LAPCalendarBundle/Resources/config/routing.yml"
+    prefix:   /
+
+lap_staticpages:
+    resource: "@LAPStaticpagesBundle/Resources/config/routing.yml"
+    prefix:   /
+
+lap_notifications:
+    resource: "@LAPNotificationsBundle/Resources/config/routing.yml"
+    prefix:   /
+
+lap_messagerie:
+    resource: "@LAPMessagerieBundle/Resources/config/routing.yml"
+    prefix:   /
+
+lap_utilisateur:
+    resource: "@LAPUtilisateurBundle/Resources/config/routing.yml"
+    prefix:   /
+
+lap_admin:
+    resource: "@LAPAdminBundle/Resources/config/routing.yml"
+    prefix:   /
+
+lap_user:
+    resource: "@LAPUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+lap_mentions:
+    resource: "@LAPMentionsBundle/Resources/config/routing.yml"
+    prefix:   /
+
+lap_contact:
+    resource: "@LAPContactBundle/Resources/config/routing.yml"
+    prefix:   /
+
+lap_infos:
+    resource: "@LAPInfosBundle/Resources/config/routing.yml"
+    prefix:   /
+
+lap_equipe:
+    resource: "@LAPEquipeBundle/Resources/config/routing.yml"
+    prefix:   /
+
+lap_ecole:
+    resource: "@LAPEcoleBundle/Resources/config/routing.yml"
+    prefix:   /
+
+lap_blog:
+    resource: "@LAPBlogBundle/Resources/config/routing.yml"
+    prefix:   /
+
+lap_accueil:
+    resource: "@LAPAccueilBundle/Resources/config/routing.yml"
+    prefix:   /
+
+login:
+    path: /login
+    defaults:
+        _controller: LAPUtilisateurBundle:Security:login
+
+login_check:
+    path: /login_check
+
+logout:
+    path: /logout
+
+admin:
+    path: /admin
+
+elfinder:
+    resource: "@FMElfinderBundle/Resources/config/routing.yml"
+
+ancarebeca_fullcalendar:
+    resource: "@FullCalendarBundle/Resources/config/routing.yml"
+
+#fos_user_security:
+#    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+#fos_user_profile:
+#    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+#    prefix:	/profile
+
+#fos_user_register:
+#    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
+#    prefix: /register
+
+#fos_user_resetting:
+#    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+#    prefix: /resetting
+
+#fos_user_change_password:
+#    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+#    prefix: /profile

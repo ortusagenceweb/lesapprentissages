@@ -1,0 +1,35 @@
+{% extends 'LAPAdminBundle::layout.html.twig' %}
+
+{% block title %}
+	{{ parent() }} - Evènement
+{% endblock %}
+
+{% block body %}
+<section id="container" >
+{{ include("LAPAdminBundle:Default:entete.html.twig") }}
+<section id="main-content">
+          <section class="wrapper">
+              <div class="row mt">
+          		<div class="col-lg-6">
+                  <div class="form-panel">
+					{% for ev in event %}
+                  	  <h4 class="mb"><i class="fa fa-angle-right"></i> Evènement du {{ ev.startDate|date('d/m/Y') }}</h4><a href="{{ path('lap_calendar_deleteevent', { 'id': ev.id }) }}"><i class="btn btn-danger fa fa-trash pull-right remonte40"> </i></a>
+						<div><label><h5><strong>Débute le</strong> </h5></label>
+						{{ ev.startDate|date('d/m/Y') }} à {{ ev.startHour }} <strong>et se termine le</strong> {{ ev.endDate|date('d/m/Y') }} à {{ ev.endHour }}</div>
+						<div class="remonte15"><label><h5><strong>Par :</strong></h5></label>
+						{{ ev.username }}</div>
+						<div class="alert alert-default"><label><h5><strong>Titre :</strong></h5></label>
+						{{ ev.title }}</div>
+						<div class="alert alert-default"><label><h5><strong>Description :</strong></h5></label><br />
+						{{ ev.texte|raw }}</div><hr />
+						<div>
+							<form action="{{ path('lap_calendar_editevent', {'id': ev.id}) }}" method="post"><button class="btn btn-success" type="submit"><i class="fa fa-calendar"></i> Modifier l'évènement</button>
+							<a href="{{ path('lap_calendar_homepage') }}" class="btn btn-default pull-right" type="submit"><i class="fa fa-arrow-left"></i> Revenir au calendrier</a>
+						</div>
+					{% endfor %}
+				  </div>
+				</div>
+			  </div>
+		  </section>
+</section>
+{% endblock %}

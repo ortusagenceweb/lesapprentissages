@@ -1,0 +1,32 @@
+lap_calendar_homepage:
+    path:     /admin/calendar
+    defaults: { _controller: LAPCalendarBundle:Default:index }
+
+lap_calendar_recup:
+    path:     /admin/calendar/recup
+    defaults: { _controller: LAPCalendarBundle:Default:recup }
+
+lap_calendar_viewevent:
+    path:     /admin/calendar/viewevent/{id}
+    defaults:
+        _controller: LAPCalendarBundle:Default:viewevent
+    requirements:
+        id: \d+
+
+lap_calendar_addevent:
+    path:    /admin/calendar/addevent
+    defaults: { _controller: LAPCalendarBundle:Default:addevent }
+
+lap_calendar_editevent:
+    path:   /admin/calendar/editevent/{id}
+    defaults:
+        _controller: LAPCalendarBundle:Default:editevent
+    requirements:
+        id: \d+
+
+lap_calendar_deleteevent:
+    path:   /admin/calendar/deleteevent/{id}
+    defaults:
+        _controller: LAPCalendarBundle:Default:deleteevent
+    requirements:
+        id: \d+

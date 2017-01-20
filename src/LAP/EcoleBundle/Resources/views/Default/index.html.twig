@@ -1,0 +1,31 @@
+{% extends '::layout.html.twig' %}
+
+{% block title %}
+	{{ parent() }} - Notre école
+{% endblock %}
+
+{% block body %}
+	<section id="corps_blog">
+		<div id="blog_content">
+			<div>
+				{% for page in listeAllpages %}
+					{% set a = loop.index %}
+					{% if a in range (0, 3) %}
+					<h1>{{ page.titre }}</h1>
+					<p>{{ page.texte|raw }}</p>
+					{% endif %}
+				{% endfor %}
+				<div id="deux_blocs">
+					{% for page in listeAllpages %}
+						{% set a = loop.index %}
+						{% if a in range (4, 5) %}
+						<div><h2>{{ page.titre|upper }}</h2>
+						<p>{{ page.texte|raw }}</p></div>
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	{{ include("LAPAccueilBundle:Accueil:footer.html.twig") }}
+	</section>
+{% endblock %}

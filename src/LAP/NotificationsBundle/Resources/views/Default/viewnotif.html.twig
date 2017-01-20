@@ -1,0 +1,54 @@
+{% extends 'LAPAdminBundle::layout.html.twig' %}
+
+{% block title %}
+	{{ parent() }} - Page d'admin
+{% endblock %}
+
+{% block body %}
+<section id="container" >
+{{ include("LAPAdminBundle:Default:entete.html.twig") }}
+<section id="main-content">
+          <section class="wrapper">
+              <div class="row mt">
+          		<div class="col-lg-6">
+                  <div class="form-panel" style="padding-bottom: 50px;">
+                  	  <h4 class="mb"><i class="fa fa-angle-right"></i> Notification n&deg; {{ notif.id }} du {{ notif.dateNotif|date('d/m/Y') }}</h4>
+						<div><label><h4>Statut :</h4></label>
+						{% if notif.idStatut == 1 %}<span class="label label-danger"><i class="fa fa-warning"> </i></span>
+						{% elseif notif.idStatut == 2 %}<span class="label label-warning"><i class="fa fa-star"> </i></span>
+						{% elseif notif.idStatut == 3 %}<span class="label label-info"><i class="fa fa-thumbs-o-up"> </i></span>
+						{% elseif notif.idStatut == 4 %}<span class="label label-default"><i class="fa fa-info"> </i></span>
+						{% elseif notif.idStatut == 5 %}<span class="label label-default"><i class="fa fa-lock"> </i></span>
+						{% endif %}
+						{{ notif.statut }}</div>
+						<div><label><h4>Auteur :</h4></label>
+						{{ notif.username|capitalize }}</div>
+						<div><label><h4>Intitulé :</h4></label> {{ notif.titre }}</div>
+						<div><label><h4>Texte :</h4></label><br />
+						{{ notif.texte|raw }}</div><br />
+						<div>
+							{# if message.traite == 0 %}<form action="{{ path('lap_admin_viewmessage', {'id': message.id, 'act': 'traite'}) }}" method="post"><button class="btn btn-success" type="submit"><i class="fa fa-check"></i> Indiquer que le message a été traité</button>
+							{% else %}
+							<div class="alert alert-info">Ce message a été traité le {{ message.dateTraite|date('d/m/Y') }} par {{ message.username }}</div>
+							{% endif #}
+							<div class="btn-group pull-left">
+								<button class="btn btn-theme dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-exclamation"></i> Changer statut <span class="caret"></span></button>
+								<ul class="dropdown-menu" role="menu">
+									{% for statut in status %}
+										{% if statut.id == 1 %}<li><form action="{{ path('lap_notifications_viewnotif', {'id': notif.id, 'act': 'statut-1'}) }}" method="post"><button class="btn btn-link" type="submit" {% if notif.idStatut == statut.id %}disabled{% endif %}><i class="fa fa-warning"></i> {{ statut.status }}</button></form></li>
+										{% elseif statut.id == 2 %}<li><form action="{{ path('lap_notifications_viewnotif', {'id': notif.id, 'act': 'statut-2'}) }}" method="post"><button class="btn btn-link" type="submit" {% if notif.idStatut == statut.id %}disabled{% endif %}><i class="fa fa-star"></i> {{ statut.status }}</button></form></li>
+										{% elseif statut.id == 3 %}<li><form action="{{ path('lap_notifications_viewnotif', {'id': notif.id, 'act': 'statut-3'}) }}" method="post"><button class="btn btn-link" type="submit" {% if notif.idStatut == statut.id %}disabled{% endif %}><i class="fa fa-thumbs-o-up"></i> {{ statut.status }}</button></form></li>
+										{% elseif statut.id == 4 %}<li><form action="{{ path('lap_notifications_viewnotif', {'id': notif.id, 'act': 'statut-4'}) }}" method="post"><button class="btn btn-link" type="submit" {% if notif.idStatut == statut.id %}disabled{% endif %}><i class="fa fa-info"></i> {{ statut.status }}</button></form></li>
+										{% elseif statut.id == 5 %}<li><form action="{{ path('lap_notifications_viewnotif', {'id': notif.id, 'act': 'statut-5'}) }}" method="post"><button class="btn btn-link" type="submit" {% if notif.idStatut == statut.id %}disabled{% endif %}><i class="fa fa-lock"></i> {{ statut.status }}</button></form></li>
+										{% endif %}
+									{% endfor %}
+								</ul>
+							</div>
+							<a href="{{ path('lap_notifications_homepage') }}" class="btn btn-default pull-right"><i class="fa fa-arrow-left"></i> Retour aux notifications</a>
+						</div>
+				  </div>
+				</div>
+			  </div>
+		  </section>
+</section>
+{% endblock %}

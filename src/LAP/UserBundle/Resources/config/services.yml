@@ -1,0 +1,4 @@
+services:
+#    lap_user.example:
+#        class: LAP\UserBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]

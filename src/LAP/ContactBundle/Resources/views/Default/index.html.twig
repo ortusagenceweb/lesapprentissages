@@ -1,0 +1,23 @@
+{% extends '::layout.html.twig' %}
+
+{% block title %}
+	{{ parent() }} - Contact
+{% endblock %}
+
+{% block body %}
+	<section id="corps_blog">
+		<div id="contact_content">
+			<div>
+				<h1>Contactez-nous</h1>
+				{% for message in app.session.flashbag.get('notice') %}
+				<p class="message_envoye">{{ message }}</p>
+				{% endfor %}
+				<p>Ecrivez-nous à l'aide du formulaire ci-dessous si vous souhaitez obtenir une information ou un devis concernant votre projet :</p>
+				<div class="well">
+					{{ form(form) }}
+				</div>
+			</div>
+		</div>
+	{{ include("LAPAccueilBundle:Accueil:footer.html.twig") }}
+	</section>
+{% endblock %}

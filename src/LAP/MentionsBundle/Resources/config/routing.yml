@@ -1,0 +1,3 @@
+lap_mentions_homepage:
+    path:     /mentions
+    defaults: { _controller: LAPMentionsBundle:Default:index }

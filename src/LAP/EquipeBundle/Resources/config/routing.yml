@@ -1,0 +1,3 @@
+lap_equipe_homepage:
+    path:     /equipe
+    defaults: { _controller: LAPEquipeBundle:Default:index }

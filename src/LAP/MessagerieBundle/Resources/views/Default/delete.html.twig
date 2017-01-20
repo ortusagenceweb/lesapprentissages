@@ -1,0 +1,29 @@
+{% extends 'LAPAdminBundle::layout.html.twig' %}
+
+{% block title %}
+	{{ parent() }} - Effacer message
+{% endblock %}
+
+{% block body %}
+<section id="container" >
+{{ include("LAPAdminBundle:Default:entete.html.twig") }}
+<section id="main-content">
+          <section class="wrapper">
+              <div class="row mt">
+          		<div class="col-lg-6">
+                  <div class="form-panel">
+                  	  <h4 class="mb"><i class="fa fa-angle-right"></i> Supprimer un message</h4>
+					  <p><h3>Voulez-vous vraiment supprimer ce message ?</h3></p>
+					  <p></p>
+						<form action="{{ path('lap_messagerie_delete', {'id': message.id}) }}" method="post">
+							<a href="{{ path('lap_messagerie_homepage') }}" class="btn btn-default">
+							<i class="glyphicon glyphicon-chevron-left"></i>Retour aux messages</a>
+							<input type="submit" value="Supprimer" class="btn btn-danger" />
+							{{ form_rest(form) }}
+						</form>
+				  </div>
+				</div>
+			  </div>
+		  </section>
+</section>
+{% endblock %}

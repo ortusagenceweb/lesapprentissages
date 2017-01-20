@@ -1,0 +1,28 @@
+{% extends '::layout.html.twig' %}
+
+{% block title %}
+	{{ parent() }} - Page d'accueil
+{% endblock %}
+
+{% block body %}
+	<section id="corps">
+		<article>
+			<img id="titre_corps" src="{{ asset('/images/texte_lesapprentissages.png') }}" alt="" />
+			<img id="fond_corps" src="{{ asset('/images/fond.jpg') }}" alt="" />
+		</article>
+		<article id="four_blocs">
+			{% for page in pages %}
+			{% set a = loop.index %}
+			{% if a in range (6, 9) %}
+				<div id="bloc0{{ page.id }}"><h1>{{ page.titre }}</h1><h2>{{ page.texte }}</h2></div>
+			{% endif %}
+			{% endfor %}
+			<!--<div id="bloc01"><h1>des membres 100% libres et responsables</h1><h2>Ils sont auteurs de leurs apprentissages et de leur vie</h2></div>
+			<div id="bloc02"><h1>un personnel expérimenté et bienveillant</h1><h2>Ils font confiance aux jeunes et les soutiennent dans leurs choix</h2></div>
+			<div id="bloc03"><h1>apprentissages autonomes et informels</h1><h2>Jeux, dialogues, arts, recherche, projets... tout ce qui résulte de leur motivation intrinsèque</h2></div>
+			<div id="bloc04"><h1>une organisation autogérée et démocratique</h1><h2>Les jeunes et le personnel partagent le pouvoir à égalité pour la gestion de l'école</h2></div>-->
+		</article>
+		<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d41725.39277081715!2d-0.40727828903896257!3d49.1846786575253!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x480a42bd4c04c933%3A0x3da5749f30d00859!2s14000+Caen!5e0!3m2!1sfr!2sfr!4v1479407357538" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+	{{ include("LAPAccueilBundle:Accueil:footer.html.twig") }}
+	</section>
+{% endblock %}

@@ -1,0 +1,14 @@
+lap_utilisateur_homepage:
+    path:     /admin/utilisateur
+    defaults: { _controller: LAPUtilisateurBundle:Default:index }
+
+lap_utilisateur_viewuser:
+    path:     /admin/utilisateur/view/{id}
+    defaults:
+        _controller: LAPUtilisateurBundle:Default:viewuser
+    requirements:
+        id: \d+
+
+lap_utilisateur_add:
+    path:    /admin/utilisateur/add
+    defaults: { _controller: LAPUtilisateurBundle:Default:add }

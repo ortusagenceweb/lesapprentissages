@@ -1,0 +1,3 @@
+lap_accueil_homepage:
+    path:     /
+    defaults: { _controller: LAPAccueilBundle:Default:index }

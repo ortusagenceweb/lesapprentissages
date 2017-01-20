@@ -1,0 +1,14 @@
+lap_todo_homepage:
+    path:     /admin/todolist
+    defaults: { _controller: LAPTodoBundle:Default:index }
+
+lap_todo_addtask:
+    path:     /admin/todolist/addtask
+    defaults: { _controller: LAPTodoBundle:Default:addtask }
+
+lap_todo_deletetask:
+    path:     /admin/todolist/deletetask/{id}
+    defaults:
+        _controller: LAPTodoBundle:Default:deletetask
+    requirements:
+        id: \d+

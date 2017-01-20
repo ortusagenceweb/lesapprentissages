@@ -1,0 +1,21 @@
+{% extends '::layout.html.twig' %}
+
+{% block title %}
+	{{ parent() }} - Actualités
+{% endblock %}
+
+{% block body %}
+	<section id="corps_blog">
+		{% for article in listeArticles %}
+			<div id="blog_content">
+				<div>
+					<h1>{{ article.titre }}</h1>
+					<p>{{ article.texte|raw }}</p>
+					<p><a href="{{ path('lap_blog_view', {'id': article.id}) }}">Lire la suite...</a></p>
+					<p><em>Article publié le {{ article.datePub|date('d-m-Y') }} par {{ article.auteur }}</em></p>
+				</div>
+			</div>
+		{% endfor %}
+	{{ include("LAPAccueilBundle:Accueil:footer.html.twig") }}
+	</section>
+{% endblock %}

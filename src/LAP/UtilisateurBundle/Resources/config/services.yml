@@ -1,0 +1,8 @@
+services:
+    redirect.after.login:
+        class: LAP\UtilisateurBundle\Redirection\AfterLoginRedirection
+        arguments: ["@router"]
+
+    redirect.after.logout:
+        class: LAP\UtilisateurBundle\Redirection\AfterLogoutRedirection
+        arguments: ["@router", "@security.authorization_checker"]

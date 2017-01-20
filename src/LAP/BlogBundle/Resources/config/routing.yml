@@ -1,0 +1,10 @@
+lap_blog_homepage:
+    path:     /blog
+    defaults: { _controller: LAPBlogBundle:Default:index }
+
+lap_blog_view:
+    path:     /article/page/{id}
+    defaults:
+        _controller: LAPBlogBundle:Default:view
+    requirements:
+        id: \d+

@@ -1,0 +1,3 @@
+lap_infos_homepage:
+    path:     /infos
+    defaults: { _controller: LAPInfosBundle:Default:index }

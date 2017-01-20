@@ -1,0 +1,10 @@
+lap_staticpages_homepage:
+    path:     /admin/pages
+    defaults: { _controller: LAPStaticpagesBundle:Default:index }
+
+lap_staticpages_viewpage:
+    path:     /admin/viewpage/{id}
+    defaults:
+        _controller: LAPStaticpagesBundle:Default:viewpage
+    requirements:
+        id: \d+

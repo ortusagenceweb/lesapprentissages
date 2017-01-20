@@ -1,0 +1,75 @@
+{% extends 'LAPAdminBundle::layout.html.twig' %}
+
+{% block title %}
+	{{ parent() }} - Todo List
+{% endblock %}
+
+{% block body %}
+<section id="container" >
+		{{ include("LAPAdminBundle:Default:entete.html.twig") }}
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+      <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">
+				{% for message in app.session.flashbag.get('notice') %}
+					<div class="row mt">
+						<div class="col-md-12">
+							<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>{{ message }}</div>
+						</div>
+					</div>
+				{% endfor %}
+              <div class="row">
+                  <div class="col-lg-12 main-chart">                  
+					<div class="row mt">
+					<div class="col-md-12">
+                      <div class="content-panel">
+						  <h4><i class="fa fa-angle-right"></i> Todo List</h4><a href="{{ path('lap_todo_addtask') }}" class="btn btn-theme pull-right remonte01"><i class="fa fa-pencil"></i> Lancer une tâche</a>
+					  </div>
+					  <div class="row mt">
+					  <div class="col-md-12">
+						  <section class="task-panel tasks-widget">
+							  <div class="panel-body">
+								<div class="task-content">
+									<ul class="task-list">	
+										{% for task in listAllTasks %}
+										<li {%  if task.isdone == 1 %}class="task-done"{% endif %}>
+											<div class="task-checkbox">
+												<input id="chk{{ task.id }}" class="list-child" type="checkbox" value="{{ task.id }}" />
+											</div>
+											<div class="task-title" id="t{{ task.id }}">
+												{%  if task.isdone == 1 %}<span class="">Fini</span>{% else %}
+													{% if task.intervall[1:] == 0 %}
+														<span class="badge bg-primary">Aujourd'hui !</span>
+													{% else %}
+														{% if task.intervall|slice(0,1) == "-" %}
+															<span class="badge {% if task.intervall[1:] > 7 and task.intervall[1:] < 29 %}bg-info{% elseif task.intervall[1:] > 29 %}bg-success{%  else %}bg-warning{%  endif %}">Encore {{ task.intervall[1:] }} jours</span>
+														{%  else %}
+															<span class="badge {% if task.intervall[1:] > 7 and task.intervall[1:] < 29 %}bg-important{% elseif task.intervall[1:] > 29 %}bg-inverse{% else %}bg-warning{%  endif %}"><i class="fa fa-warning"></i> Dépassé de {{ task.intervall[1:] }} jours</span>
+														{%  endif %}
+													{% endif %}
+												{% endif %} <span class="task-title-sp">{{ task.titre|capitalize }}</span><i class="fa fa-arrow-right"></i> <em>par {{ task.username|capitalize }} (le {{ task.dateCrea|date('d-m-Y') }})</em>
+												<div class="pull-right hidden-phone">
+													{% if is_granted('ROLE_SUPERADMIN') %}<a href="{{ path('lap_todo_deletetask', {'id': task.id}) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>{% endif %}
+												</div>
+											</div>
+										</li>
+										{% endfor %}
+									</ul>
+								</div>
+							  </div>
+						  </section>
+                    </div>
+					</div><!-- /content-panel -->
+                  </div>
+			  </div>
+            </div><!-- /col-lg-9 END SECTION MIDDLE -->
+                  
+                  
+      
+          </section>
+      </section>
+</section>
+{% endblock %}

@@ -1,0 +1,22 @@
+services:
+    lap_admin.cuttxt:
+        class: LAP\AdminBundle\Cuttxt\LAPCuttxt
+
+    lap_admin.inject:
+        class: LAP\AdminBundle\Inject\LAPInject
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    lap_admin.admininject:
+        class: LAP\AdminBundle\Inject\LAPAdmininject
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    lap_admin.login.listener:
+        class: LAP\AdminBundle\Login\LoginsuccessListener
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+          - { name: kernel.event_listener, event: security.interactive_login, method: onLoginSuccess }
+
+    lap_admin.service.listener:
+        class: LAP\AdminBundle\Listener\LoadDataListener
+        tags:
+          - { name: kernel.event_listener, event: fullcalendar.set_data, method: loadData }

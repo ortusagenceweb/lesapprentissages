@@ -1,0 +1,4 @@
+services:
+#    lap_infos.example:
+#        class: LAP\InfosBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]

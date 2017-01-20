@@ -1,0 +1,71 @@
+{% extends 'LAPAdminBundle::layout.html.twig' %}
+
+{% block title %}
+	{{ parent() }} - Page d'admin
+{% endblock %}
+
+{% block body %}
+<section id="container" >
+{{ include("LAPAdminBundle:Default:entete.html.twig") }}
+<section id="main-content">
+          <section class="wrapper">
+              <div class="row mt">
+          		<div class="col-lg-6">
+                  <div class="form-panel">
+                  	  <h4 class="mb"><i class="fa fa-angle-right"></i> Ajouter un article</h4>
+					  {{ form_start(form, {'attr': {'class': 'form_horizontal style-form'}}) }}
+					  
+					  {{ form_errors(form) }}
+						<div class="form-group">
+							{{ form_label(form.titre, "Titre", {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label'}}) }}
+							{{ form_errors(form.titre) }}
+							<div class="col-sm-10">
+								{{ form_widget(form.titre, {'attr':{'class': 'form-control'}}) }}
+								<span class="help-block"><em>Choisissez un titre relativement court mais percutant (45 caractères maxi - espaces compris).</em></span>
+							</div>
+							
+							{{ form_label(form.auteur, "Auteur", {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label'}}) }}
+							{{ form_errors(form.auteur) }}
+							<div class="col-sm-10">
+								{{ form_widget(form.auteur, {'attr':{'class': 'form-control disabled', 'value': name}}) }}
+							</div>
+							
+							{{ form_label(form.dateCrea, "Date création", {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label descend-10'}}) }}
+							{{ form_errors(form.dateCrea) }}
+							<div class="col-sm-10 date-input">
+								{{ form_widget(form.dateCrea, {'attr':{'class': 'form-control datepicker1'}}) }}
+							</div>
+							
+							{{ form_label(form.datePub, "Date publication", {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label descend-10'}}) }}
+							{{ form_errors(form.datePub) }}
+							<div class="col-sm-10 date-input">
+								{{ form_widget(form.datePub, {'attr': {'class': 'form-control datepicker1'}}) }}
+							</div>
+							
+							{{ form_label(form.active, "Est actif ?", {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label descend-10'}}) }}
+							{{ form_errors(form.active) }}
+							<div class="checkbox col-sm-2" style="margin-bottom: 0;">
+								{{ form_widget(form.active, {'attr':{'class': 'form-control', 'style' : 'margin-bottom: 10px;'}}) }}
+							</div>
+							<div style="clear: both; margin-top: 0; margin-bottom: 0;"></div>
+							
+							{{ form_label(form.idCategorie, "Catégorie", {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label'}}) }}
+							{{ form_errors(form.idCategorie) }}
+							<div class="col-sm-10" style="margin-bottom: 15px;">
+								{{ form_widget(form.idCategorie, {'attr':{'class': 'form-control'}}) }}
+							</div>
+							
+							{{ form_label(form.texte, "Votre texte", {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label'}}) }}
+							{{ form_errors(form.texte) }}
+							<div class="col-sm-10" style="margin-bottom: 15px;">
+								{{ form_widget(form.texte, {'attr':{'class': 'form-control', 'style': 'resize: vertical;'}})|raw }}
+							</div>
+						</div>
+					  {{ form_rest(form) }}
+					  {{ form_end(form) }}
+				  </div>
+				</div>
+			  </div>
+		  </section>
+</section>
+{% endblock %}

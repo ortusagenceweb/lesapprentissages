@@ -1,0 +1,129 @@
+{% extends 'LAPAdminBundle::layout.html.twig' %}
+
+{% block title %}
+	{{ parent() }} - Ajouter un membre
+{% endblock %}
+
+{% block body %}
+<section id="container" >
+{{ include("LAPAdminBundle:Default:entete.html.twig") }}
+<section id="main-content">
+          <section class="wrapper">
+              <div class="row mt">
+          		<div class="col-lg-6">
+                  <div class="form-panel">
+                  	  <h4 class="mb"><i class="fa fa-angle-right"></i> Ajouter un membre</h4>
+					  {{ form_start(form, {'attr': {'class': 'form_horizontal style-form'}}) }}
+					  {{ form_errors(form) }}
+						<div class="form-group">
+							{{ form_label(form.active, "Est actif ?", {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label descend-10'}}) }}
+							{{ form_errors(form.active) }}
+							<div class="checkbox col-sm-2" style="margin-bottom: 0;">
+								{{ form_widget(form.active, {'attr':{'class': 'form-control', 'style' : 'margin-bottom: 10px;'}}) }}
+							</div>
+							<div class="clear"></div>
+							
+							{{ form_label(form.roles, "Rôle", {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label descend-10'}}) }}
+							{{ form_errors(form.roles) }}
+							<div class="checkbox col-sm-2" style="margin-bottom: 0;">
+								{{ form_widget(form.roles, {'attr':{'class': 'form-control', 'style' : 'margin-bottom: 10px;'}}) }}
+							</div>
+							<div style="clear: both; margin-top: 0; margin-bottom: 0;"></div>
+						
+							{{ form_label(form.username, "Login", {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label'}}) }}
+							{{ form_errors(form.username) }}
+							<div class="col-sm-10">
+								{{ form_widget(form.username, {'attr':{'class': 'form-control'}}) }}
+							</div>
+							
+							{{ form_label(form.password, "Mot de passe", {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label descend-10'}}) }}
+							{{ form_errors(form.password) }}
+							<div class="col-sm-10">
+								{{ form_widget(form.password, {'attr':{'class': 'form-control descend-10'}}) }}
+							</div>
+							
+							{{ form_label(form.name, "Prénom", {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label descend-10'}}) }}
+							{{ form_errors(form.name) }}
+							<div class="col-sm-10">
+								{{ form_widget(form.name, {'attr':{'class': 'form-control descend-10'}}) }}
+							</div>
+							
+							{{ form_label(form.surname, "Nom", {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label descend-10'}}) }}
+							{{ form_errors(form.surname) }}
+							<div class="col-sm-10">
+								{{ form_widget(form.surname, {'attr':{'class': 'form-control descend-10'}}) }}
+							</div>
+							
+							{{ form_label(form.datebirth, "Date de naissance", {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label descend-10'}}) }}
+							{{ form_errors(form.datebirth) }}
+							<div class="col-sm-10 date-input">
+								{{ form_widget(form.datebirth, {'attr':{'class': 'form-control datepicker1'}}) }}
+							</div>
+							<div class="clear"></div>
+							
+							{{ form_label(form.datecrea, "Date de création", {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label descend-10'}}) }}
+							{{ form_errors(form.datecrea) }}
+							<div class="col-sm-10 date-input">
+								{{ form_widget(form.datecrea, {'attr':{'class': 'form-control datepicker1'}}) }}
+							</div>
+							
+							<div class="clear"></div>
+							{{ form_label(form.email, "Email", {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label descend-10'}}) }}
+							{{ form_errors(form.email) }}
+							<div class="col-sm-10">
+								{{ form_widget(form.email, {'attr':{'class': 'form-control descend-10'}}) }}
+							</div>
+							
+							{{ form_label(form.adress, "Adresse", {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label descend-10'}}) }}
+							{{ form_errors(form.adress) }}
+							<div class="col-sm-10">
+								{{ form_widget(form.adress, {'attr':{'class': 'form-control descend-10'}}) }}
+							</div>
+							
+							{{ form_label(form.postalcode, "Code postal", {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label descend-10'}}) }}
+							{{ form_errors(form.postalcode) }}
+							<div class="col-sm-10">
+								{{ form_widget(form.postalcode, {'attr':{'class': 'form-control descend-10'}}) }}
+							</div>
+							
+							{{ form_label(form.city, "Ville", {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label descend-10'}}) }}
+							{{ form_errors(form.city) }}
+							<div class="col-sm-10">
+								{{ form_widget(form.city, {'attr':{'class': 'form-control descend-10'}}) }}
+							</div>
+							
+							{{ form_label(form.phone, "Téléphone", {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label descend-10'}}) }}
+							{{ form_errors(form.phone) }}
+							<div class="col-sm-10">
+								{{ form_widget(form.phone, {'attr':{'class': 'form-control descend-10'}}) }}
+							</div>
+							
+							{{ form_label(form.country, "Pays", {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label descend-10'}}) }}
+							{{ form_errors(form.country) }}
+							<div class="col-sm-10">
+								{{ form_widget(form.country, {'attr':{'class': 'form-control descend-10'}}) }}
+							</div>
+							
+							{{ form_label(form.presentation, "Présentation", {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label'}}) }}
+							{{ form_errors(form.presentation) }}
+							<div class="col-sm-10" style="margin-bottom: 15px;">
+								{{ form_widget(form.presentation, {'attr':{'class': 'form-control', 'style': 'resize: vertical;'}})|raw }}
+							</div>
+							
+							{{ form_label(form.onsite, "Sur le site", {'label_attr': {'class': 'col-sm-2 col-sm-2 control-label descend-10'}}) }}
+							{{ form_errors(form.onsite) }}
+							<div class="checkbox col-sm-2" style="margin-bottom: 0;">
+								{{ form_widget(form.onsite, {'attr':{'class': 'form-control', 'style' : 'margin-bottom: 10px;'}}) }}
+							</div>
+							
+							<a href="{{ path('lap_utilisateur_homepage') }}" class="btn btn-default pull-right descend-10"><i class="fa fa-arrow-left"></i> Retour aux membres</a>
+						</div>
+						<div style="display: none;">{{ form_widget(form.picture, {'attr':{'class': 'form-control', 'value': 'images/membres/man.jpg'}}) }}</div>
+					  {{ form_rest(form) }}
+					  {{ form_end(form) }}
+				  </div>
+				</div>
+			  </div>
+		  </section>
+</section>
+{% endblock %}
