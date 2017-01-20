@@ -116,7 +116,7 @@ class DefaultController extends Controller
         $listes = $inject->miniListes( $util['id'] );
 		
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-		    /* Insertion d'une ligne de commentaire afin de vérifier l'état de changement Git/Jenkins */
+		    /* Don't take care of the lines afterward it was tests */
 			/* Email sending */
 			/*$titre = $form["titre"]->getData();
 			$auteur = $form["auteur"]->getData();
