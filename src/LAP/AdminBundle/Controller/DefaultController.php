@@ -18,7 +18,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class DefaultController extends Controller
 {
-	/**
+    /**
 	* @Security("has_role('ROLE_ADMIN')")
 	*/
 	public function indexAction(Request $request)
@@ -29,6 +29,9 @@ class DefaultController extends Controller
 		/* Connected User data */
 		$u = $this->get('security.token_storage')->getToken()->getUser();
 		$util = $inject->connectedUserdatas($u);
+
+        /* Request for the notifications in the header page */
+        $listes = $inject->miniListes( $util['id'] );
 		
 		/* All users */
 		$repository = $this->getDoctrine()->getManager()->getRepository('LAPUtilisateurBundle:User');
@@ -41,9 +44,6 @@ class DefaultController extends Controller
 		/* 10 Last messages */
 		$repository1 = $this->getDoctrine()->getManager()->getRepository('LAPContactBundle:Contact');
 		$listeLastmessages = $repository1->findLastmessages(10);
-
-        /* Request for the notifications in the header page */
-        $listes = $inject->miniListes( $util['id'] );
 		
 		/* Formatting text for viewing in admin homepage table */
 		$t = $this->container->get('lap_admin.cuttxt');
@@ -73,7 +73,7 @@ class DefaultController extends Controller
 		
 		/* Setting active value to 1 (true) directly from admin homepage */
 		if ($request->isMethod('POST')) {
-			$em = $this->getDoctrine()->getManager();
+            $em = $this->getDoctrine()->getManager();
 			$article = $em->getRepository('LAPBlogBundle:Article')->find( $request->query->get('id') );
 			if( $request->query->get('act') == "active" ) { $article->setActive(1); }
 			elseif( $request->query->get('act') == "unactive" ) { $article->setActive(0); }
