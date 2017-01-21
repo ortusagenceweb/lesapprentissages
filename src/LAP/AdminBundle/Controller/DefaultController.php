@@ -25,64 +25,36 @@ class DefaultController extends Controller
     {
         /* Call the Injection service */
         $inject = $this->container->get('lap_admin.inject');
+        $t      = $this->container->get('lap_admin.cuttxt');
 
 		/* Connected User data */
-		$u = $this->get('security.token_storage')->getToken()->getUser();
-		$util = $inject->connectedUserdatas($u);
+		$u      = $this->get('security.token_storage')->getToken()->getUser();
+		$util   = $inject->connectedUserdatas($u);
 
         /* Request for the notifications in the header page */
-        $listes = $inject->miniListes( $util['id'] );
+        $listes                 = $inject->miniListes( $util['id'] );
+        $listeLastmessagerie    = $listes[0];
 		
 		/* All users */
 		$repository = $this->getDoctrine()->getManager()->getRepository('LAPUtilisateurBundle:User');
 		$listeUsers = $repository->findAllusers();
 		
 		/* All articles */
-		$repository = $this->getDoctrine()->getManager()->getRepository('LAPBlogBundle:Article');
-		$listeArticles = $repository->findAllarticles(10);
+		$repository     = $this->getDoctrine()->getManager()->getRepository('LAPBlogBundle:Article');
+		$listeArticles  = $repository->findAllarticles(10);
 		
 		/* 10 Last messages */
-		$repository1 = $this->getDoctrine()->getManager()->getRepository('LAPContactBundle:Contact');
-		$listeLastmessages = $repository1->findLastmessages(10);
-		
-		/* Formatting text for viewing in admin homepage table */
-		$t = $this->container->get('lap_admin.cuttxt');
-		foreach($listeArticles as $key => $article)
-		{
-			$txt = $listeArticles[$key]->getTexte();
-			$txtcuted = $t->cuttext($txt);
-			$listeArticles[$key]->setTexte( trim(strip_tags(substr($txtcuted, 0, 80))) );
-		}
-		
-		/* Limit number of characters in title to 45 */
-        $listeLastmessagerie = $listes[0];
-		foreach($listeLastmessagerie as $key => $contact)
-		{
-			$txt = $listeLastmessagerie[$key]['titre'];
-			$txtcuted = $t->cuttext($txt);
-			$listeLastmessagerie[$key]['titre'] = ( trim(strip_tags(substr($txtcuted, 0, 45))) );
-		}
-		
-		/* Limit number of characters in title to 80 */
-		foreach($listeLastmessages as $key => $contact)
-		{
-			$txt = $listeLastmessages[$key]->getTexte();
-			$txtcuted = $t->cuttext($txt);
-			$listeLastmessages[$key]->setTexte( trim(strip_tags(substr($txtcuted, 0, 80))) );
-		}
-		
-		/* Setting active value to 1 (true) directly from admin homepage */
-		if ($request->isMethod('POST')) {
-            $em = $this->getDoctrine()->getManager();
-			$article = $em->getRepository('LAPBlogBundle:Article')->find( $request->query->get('id') );
-			if( $request->query->get('act') == "active" ) { $article->setActive(1); }
-			elseif( $request->query->get('act') == "unactive" ) { $article->setActive(0); }
-			$em->flush();
-			
-			$request->getSession()->getFlashBag()->add('notice', 'Votre article a bien été modifié.');
-			
-			return $this->redirectToRoute('lap_admin_homepage');
-		}
+		$repository1        = $this->getDoctrine()->getManager()->getRepository('LAPContactBundle:Contact');
+		$listeLastmessages  = $repository1->findLastmessages(10);
+
+        $inject->formatTable($listeArticles, $t);
+		$inject->limit45($listeLastmessagerie, $t);
+		$inject->limit80($listeLastmessages, $t);
+
+        if ($request->isMethod('POST')) {
+            $inject->modifArticle($request);
+            return $this->redirectToRoute('lap_admin_homepage');
+        }
 		
 		return $this->render('LAPAdminBundle:Default:index.html.twig', array(
 			'name'                  => $util['name'],
@@ -99,6 +71,7 @@ class DefaultController extends Controller
 
 	/**
 	* @Security("has_role('ROLE_ADMIN')")
+    * @Route("/admin/add", name="lap_admin_add")
 	*/
 	public function addAction(Request $request)
 	{	
@@ -183,9 +156,7 @@ class DefaultController extends Controller
 		
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 			$em->flush();
-			
 			$request->getSession()->getFlashBag()->add('notice', 'Votre article a bien été modifié.');
-			
 			return $this->redirectToRoute('lap_admin_homepage');
 		}
 		
@@ -274,16 +245,8 @@ class DefaultController extends Controller
         /* Request for the notifications in the header page */
         $listes = $inject->miniListes( $util['id'] );
 		
-		/* Setting active value to 1 (true) directly from view articles page*/
 		if ($request->isMethod('POST')) {
-			$em = $this->getDoctrine()->getManager();
-			$article = $em->getRepository('LAPBlogBundle:Article')->find( $request->query->get('id') );
-			if( $request->query->get('act') == "active" ) { $article->setActive(1); }
-			elseif( $request->query->get('act') == "unactive" ) { $article->setActive(0); }
-			$em->flush();
-			
-			$request->getSession()->getFlashBag()->add('notice', 'Votre article a bien été modifié.');
-			
+			$inject->modifArticle($request);
 			return $this->redirectToRoute('lap_admin_viewarticles');
 		}
 		
@@ -354,9 +317,8 @@ class DefaultController extends Controller
 		$adminInject = $this->container->get('lap_admin.admininject');
 		
 		/* Connected User data */
-		$u = $this->get('security.token_storage')->getToken()->getUser();
-		$util = $inject->connectedUserdatas($u);
-		$userid = $util['id'];
+        $u      = $this->get('security.token_storage')->getToken()->getUser();
+        $util   = $inject->connectedUserdatas($u);
 		
         $usr = $adminInject->recupusr($userid);
 
@@ -395,11 +357,8 @@ class DefaultController extends Controller
 		$form = $this->get('form.factory')->create(UsereditType::class, $usr);
 		
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-			
 			$em->flush();
-			
 			$request->getSession()->getFlashBag()->add('notice', 'Votre profil a bien été modifié.');
-			
 			return $this->redirectToRoute('lap_admin_profile');
 		}
 		

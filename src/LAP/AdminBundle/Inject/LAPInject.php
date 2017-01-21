@@ -4,6 +4,7 @@ namespace LAP\AdminBundle\Inject;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class LAPInject extends Controller
 {
@@ -83,5 +84,61 @@ class LAPInject extends Controller
         $liste[] = $list5LastTasks;
 
         return $liste;
+    }
+
+    /*
+     * Setting active value to 1 (true) directly from admin homepage
+     */
+    public function modifArticle($request)
+    {
+        //$em = $this->getDoctrine()->getManager();
+        $article = $this->em->getRepository('LAPBlogBundle:Article')->find( $request->query->get('id') );
+        if( $request->query->get('act') == "active" ) { $article->setActive(1); }
+        elseif( $request->query->get('act') == "unactive" ) { $article->setActive(0); }
+        $this->em->flush();
+
+        $request->getSession()->getFlashBag()->add('notice', 'Votre article a bien été modifié.');
+    }
+
+    /*
+     * Limit number of characters in title to 80
+     */
+    public function limit80($listeLastmessages, $t)
+    {
+        foreach($listeLastmessages as $key => $contact)
+        {
+            $txt = $listeLastmessages[$key]->getTexte();
+            $txtcuted = $t->cuttext($txt);
+            $listeLastmessages[$key]->setTexte( trim(strip_tags(substr($txtcuted, 0, 80))) );
+        }
+        return $listeLastmessages;
+    }
+
+    /*
+     * Limit number of characters in title to 45
+     */
+    public function limit45($listeLastmessagerie, $t)
+    {
+        foreach($listeLastmessagerie as $key => $contact)
+        {
+            $txt = $listeLastmessagerie[$key]['titre'];
+            $txtcuted = $t->cuttext($txt);
+            $listeLastmessagerie[$key]['titre'] = ( trim(strip_tags(substr($txtcuted, 0, 45))) );
+        }
+        return $listeLastmessagerie;
+    }
+
+    /*
+     * Formatting text for viewing in admin homepage table
+     */
+    public function formatTable($listeArticles, $t)
+    {
+        foreach($listeArticles as $key => $article)
+        {
+            $txt = $listeArticles[$key]->getTexte();
+            $txtcuted = $t->cuttext($txt);
+            $listeArticles[$key]->setTexte( trim(strip_tags(substr($txtcuted, 0, 80))) );
+        }
+        return $listeArticles;
     }
 }
