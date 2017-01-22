@@ -21,30 +21,24 @@ class DefaultController extends Controller
     {
 		/* Call the Injection service */
 		$inject = $this->container->get('lap_admin.inject');
-
-        /* Getting the current route */
-        $r = $this->generateUrl('lap_notifications_homepage', array(), UrlGeneratorInterface::ABSOLUTE_URL);
-        $route = explode("/", $r);
-        $route = end($route);
 		
 		/* Connected User data */
 		$u = $this->get('security.token_storage')->getToken()->getUser();
 		$util = $inject->connectedUserdatas($u);
-		
-		/* 5 (max) last messages in Messagerie */
-		$listeLastmessagerie = $inject->listeLastmessagerie( $util['id'] );
-		
-		/* 5 (max) last notifications */
-		$listeLastnotifications = $inject->listeLastnotifications(5);
-		
-		/* All notifications */
-		$listeAllnotifications = $inject->listeAllnotifications();
 
-        /* Request for the notifications in the header page */
+		/* Request for the notifications in the header page */
         $listes = $inject->miniListes( $util['id'] );
+        $listeLastmessagerie    = $listes[0];
+
+        /* 5 (max) last notifications */
+        $listeLastnotifications = $inject->listeLastnotifications(5);
+
+        /* All notifications */
+        $listeAllnotifications = $inject->listeAllnotifications();
 		
 		/* Formatting text for viewing in notifications homepage table */
 		$t = $this->container->get('lap_admin.cuttxt');
+        $inject->limit45($listeLastmessagerie, $t);
 		foreach($listeAllnotifications as $key => $notif)
 		{
 			$txt = $listeAllnotifications[$key]['texte'];
@@ -60,8 +54,7 @@ class DefaultController extends Controller
 			'listeAllnotifications'     => $listeAllnotifications,
             'listeLastmessagerie'       => $listes[0],
 			'listeLast5notifs'          => $listes[1],
-            'list5LastTasks'            => $listes[2],
-            'route'                     => $route
+            'list5LastTasks'            => $listes[2]
 		));
     }
 
@@ -83,7 +76,7 @@ class DefaultController extends Controller
 		$notif = $repository->findNotification($id);
 
 		if(null === $notif) {
-			throw new NotFoundHttpException("La notifiaction d'id ".$id." n'existe pas.");
+			throw new NotFoundHttpException("La notification d'id ".$id." n'existe pas.");
 		}
 
 		/* All notifications status*/
@@ -98,24 +91,7 @@ class DefaultController extends Controller
 			//die(var_dump($request->query->get('act')));
 			$em = $this->getDoctrine()->getManager();
 			$notif = $em->getRepository('LAPNotificationsBundle:Notifications')->find( $id );
-			switch( $request->query->get('act') )
-			{
-				case 'statut-1':
-					$notif->setStatut(1);
-					break;
-				case 'statut-2':
-					$notif->setStatut(2);
-					break;
-				case 'statut-3':
-					$notif->setStatut(3);
-					break;
-				case 'statut-4':
-					$notif->setStatut(4);
-					break;
-				case 'statut-5':
-					$notif->setStatut(5);
-					break;
-			}
+			$inject->setNotificationStatus( $request->query->get('act'), $notif );
 			$em->flush();
 			
 			$request->getSession()->getFlashBag()->add('notice', 'La notification a bien été modifiée.');
