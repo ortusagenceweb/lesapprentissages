@@ -33,45 +33,11 @@ class DefaultController extends Controller
 		$repository = $this->getDoctrine()->getManager()->getRepository('LAPCalendarBundle:Events');
 		$ev = $repository->findAllCalendar();
 
-		/* Modifying the received code for viewing in the calendar in Json */
-		$tb = array();
-		$keys = array_keys($ev);
+        $tb = $inject->formatJsonTab($ev);
+        if($request->isXMLHttpRequest()) {
+            return new JsonResponse( $tb, 200 );
+        }
 
-		for($i=0; $i < count($ev); $i++) {
-			foreach($ev[$keys[$i]] as $key => $value) {
-				if($key == 'title') { $tb[$i][$key] = $value; }
-				if($key == 'start') {
-					$tb[$i][$key] = $value->format("Y-m-d").$value->format("H:i:s");
-				}
-				if($key == 'end') {
-					$tb[$i][$key] = $value->format("Y-m-d").$value->format("H:i:s");
-				}
-				if($key == 'allDay') {
-					$tb[$i][$key] = $value;
-				}
-				if($key == 'url') {
-					$tb[$i][$key] = $value;
-				}
-				if($key == 'color') {
-					$tb[$i]['backgroundColor'] = "#".$value;
-					$tb[$i]['borderColor'] = "#ffffff";
-					if($value == "ffff00") { // yellow
-						$tb[$i]['textColor'] = "brown";
-					}
-				}
-				if($key == 'startHour') {
-					$tb[$i]['start'] = substr($tb[$i]['start'], 0, 10).'T'.$value.':00';
-				}
-				if($key == 'endHour') {
-					$tb[$i]['end'] = substr($tb[$i]['end'], 0, 10).'T'.$value.':00';
-				}
-			}
-		}
-
-		if($request->isXMLHttpRequest()) {
-			return new JsonResponse( $tb, 200 );
-		}
-		
 		return $this->render('LAPCalendarBundle:Default:index.html.twig', array(
 			'name'                  => $util['name'],
 			'surname'               => $util['surname'],
@@ -123,11 +89,10 @@ class DefaultController extends Controller
 	{	
 		/* Call to the Injection service */
 		$inject = $this->container->get('lap_admin.inject');
-		
-		/* Connected User data */
-		$u = $this->get('security.token_storage')->getToken()->getUser();
-		$util = $inject->connectedUserdatas($u);
-		$idusr = $util['id'];
+
+        /* Connected User data */
+        $u = $this->get('security.token_storage')->getToken()->getUser();
+        $util = $inject->connectedUserdatas($u);
 		
 		$event = new Events();
 		$form = $this->createForm(EventType::class, $event);
@@ -139,6 +104,7 @@ class DefaultController extends Controller
 		$lastCalendarid = $inject->lastCalendarid();
 		$lastId = $lastCalendarid->getId();
 		$lastId += 1;
+
 		/* Absolute URL */
 		$r = $this->generateUrl('lap_admin_homepage', array(), UrlGeneratorInterface::ABSOLUTE_URL);
 		$url = $r.'/calendar/viewevent/'.$lastId;
@@ -174,18 +140,10 @@ class DefaultController extends Controller
 	{
 		/* Call the Injection service */
 		$inject = $this->container->get('lap_admin.inject');
-		
-		/* Connected User data */
-		$u = $this->get('security.token_storage')->getToken()->getUser();
-		$util = $inject->connectedUserdatas($u);
-		$idusr = $util['id'];
-		
-		/*$em = $this->getDoctrine()->getManager();
-		$event = $em->getRepository('LAPCalendarBundle:Events')->find($id);
-		
-		if(null === $event) {
-			throw new NotFoundHttpException("L'évènement d'id ".$id." n'existe pas.");
-		}*/
+
+        /* Connected User data */
+        $u = $this->get('security.token_storage')->getToken()->getUser();
+        $util = $inject->connectedUserdatas($u);
 		
 		$form = $this->get('form.factory')->create(EventEditType::class, $event);
 
@@ -196,7 +154,8 @@ class DefaultController extends Controller
 		$r = $this->generateUrl('lap_admin_homepage', array(), UrlGeneratorInterface::ABSOLUTE_URL);
 		$url = $r.'/calendar/viewevent/'.$id;
 		
-		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {			
+		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            $em = $this->getDoctrine()->getManager();
 			$em->flush();			
 			$request->getSession()->getFlashBag()->add('notice', 'Votre évènement a bien été modifié.');			
 			return $this->redirectToRoute('lap_calendar_viewevent', array('id' => $id));
