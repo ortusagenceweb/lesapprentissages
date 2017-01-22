@@ -51,13 +51,6 @@ class DefaultController extends Controller
             $data['div'] = $request->request->get('var');
             $em->flush();
             return new JsonResponse( $data, 200 );
-
-			/*$task = $repository->findBy( array('id' => $request->request->get('var')) );
-            $encoders = array(new XmlEncoder(), new JsonEncoder());
-            $normalizers = array(new ObjectNormalizer());
-            $serializer = new Serializer($normalizers, $encoders);
-            $jsonContent = $serializer->serialize( $task, 'json');
-			return new JsonResponse( json_encode( $jsonContent, 200 ));*/
 		}
 		
         return $this->render('LAPTodoBundle:Default:index.html.twig', array(
@@ -78,11 +71,10 @@ class DefaultController extends Controller
 	{	
 		/* Call to the Injection service */
 		$inject = $this->container->get('lap_admin.inject');
-		
-		/* Connected User data */
-		$u = $this->get('security.token_storage')->getToken()->getUser();
-		$util = $inject->connectedUserdatas($u);
-		$idusr = $util['id'];
+
+        /* Connected User data */
+        $u = $this->get('security.token_storage')->getToken()->getUser();
+        $util = $inject->connectedUserdatas($u);
 		
 		$task = new Todolist();
 		$form = $this->createForm(TodoType::class, $task);
