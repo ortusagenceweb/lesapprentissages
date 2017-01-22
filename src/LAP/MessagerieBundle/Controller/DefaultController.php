@@ -19,24 +19,17 @@ class DefaultController extends Controller
     {
 		/* Call the Injection service */
 		$inject = $this->container->get('lap_admin.inject');
-		
-		/* Connected User data */
-		$u = $this->get('security.token_storage')->getToken()->getUser();
-		$util = $inject->connectedUserdatas($u);
-		$idusr = $util['id'];
+
+        /* Connected User data */
+        $u      = $this->get('security.token_storage')->getToken()->getUser();
+        $util   = $inject->connectedUserdatas($u);
 		
 		/* My messages */
 		$repository = $this->getDoctrine()->getManager()->getRepository('LAPMessagerieBundle:Messagerie');
-		$mesmessages = $repository->findMymessages($idusr);
-		
-		/* Formatting text for viewing in admin messagerie table */
-		$t = $this->container->get('lap_admin.cuttxt');		
-		foreach($mesmessages as $key => $message)
-		{
-			$txt = $mesmessages[$key]['texte'];
-			$txtcuted = $t->cuttext($txt);
-			$mesmessages[$key]['texte'] = ( trim(strip_tags(substr($txtcuted, 0, 80))) );
-		}
+		$mesmessages = $repository->findMymessages($util['id']);
+
+		$t = $this->container->get('lap_admin.cuttxt');
+        $inject->formatTextMessagerieTable($t, $mesmessages);
 
         /* Request for the notifications in the header page */
         $listes = $inject->miniListes( $util['id'] );
@@ -89,12 +82,12 @@ class DefaultController extends Controller
 		$repository = $this->getDoctrine()->getManager()->getRepository('LAPMessagerieBundle:Messagerie');
 		$message = $repository->findMessage($id);
 
+        if(null === $message) {
+            throw new NotFoundHttpException("Le message d'id ".$id." n'existe pas.");
+        }
+
         /* Request for the notifications in the header page */
         $listes = $inject->miniListes( $util['id'] );
-		
-		if(null === $message) {
-			throw new NotFoundHttpException("Le message d'id ".$id." n'existe pas.");
-		}
 		
 		return $this->render('LAPMessagerieBundle:Default:viewmessage.html.twig', array(
 			'name'                  => $util['name'],
@@ -114,15 +107,14 @@ class DefaultController extends Controller
 	{
 		/* Call the Injection service */
 		$inject = $this->container->get('lap_admin.inject');
-		
-		/* Connected User data */
-		$u = $this->get('security.token_storage')->getToken()->getUser();
-		$util = $inject->connectedUserdatas($u);
-		$usrid = $util['id'];
+
+        /* Connected User data */
+        $u = $this->get('security.token_storage')->getToken()->getUser();
+        $util = $inject->connectedUserdatas($u);
 		
 		$write = new Messagerie();
 		$form = $this->createForm(MessagerieType::class, $write, array(
-			'attr' => array('id' => $usrid)
+			'attr' => array('id' => $util['id'])
 		));
 		
 		$messageOriginal = 0;
