@@ -141,4 +141,42 @@ class LAPInject extends Controller
         }
         return $listeArticles;
     }
+
+    public function formatJsonTab($ev)
+    {
+        $tb = array();
+        $keys = array_keys($ev);
+
+        for($i=0; $i < count($ev); $i++) {
+            foreach($ev[$keys[$i]] as $key => $value) {
+                if($key == 'title') { $tb[$i][$key] = $value; }
+                if($key == 'start') {
+                    $tb[$i][$key] = $value->format("Y-m-d").$value->format("H:i:s");
+                }
+                if($key == 'end') {
+                    $tb[$i][$key] = $value->format("Y-m-d").$value->format("H:i:s");
+                }
+                if($key == 'allDay') {
+                    $tb[$i][$key] = $value;
+                }
+                if($key == 'url') {
+                    $tb[$i][$key] = $value;
+                }
+                if($key == 'color') {
+                    $tb[$i]['backgroundColor'] = "#".$value;
+                    $tb[$i]['borderColor'] = "#ffffff";
+                    if($value == "ffff00") { // yellow
+                        $tb[$i]['textColor'] = "brown";
+                    }
+                }
+                if($key == 'startHour') {
+                    $tb[$i]['start'] = substr($tb[$i]['start'], 0, 10).'T'.$value.':00';
+                }
+                if($key == 'endHour') {
+                    $tb[$i]['end'] = substr($tb[$i]['end'], 0, 10).'T'.$value.':00';
+                }
+            }
+        }
+        return $tb;
+    }
 }
