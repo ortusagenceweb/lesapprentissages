@@ -320,7 +320,13 @@ class DefaultController extends Controller
         $u      = $this->get('security.token_storage')->getToken()->getUser();
         $util   = $inject->connectedUserdatas($u);
 
-        $usr = $adminInject->recupusr( $util['id'] );
+        //$usr = $adminInject->recupusr( $util['id'] );
+        $repository = $this->getDoctrine()->getManager()->getRepository('LAPUtilisateurBundle:User');
+        $usr = $repository->findUser($util['id']);
+
+        if(null === $usr) {
+            throw new NotFoundHttpException("L'utilisateur d'id ".$util['id']." n'existe pas.");
+        }
 
         /* Request for the notifications in the header page */
         $listes = $inject->miniListes( $util['id'] );
