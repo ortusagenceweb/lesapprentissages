@@ -34,7 +34,7 @@ class LAPAdmininject extends Controller
     public function recupusr($userid)
     {
         $repository = $this->em->getRepository('LAPUtilisateurBundle:User');
-        $usr = $repository->findUser($userid);
+        $usr = $repository->find($userid);
 
         if(null === $usr) {
             throw new NotFoundHttpException("L'utilisateur d'id ".$id." n'existe pas.");
