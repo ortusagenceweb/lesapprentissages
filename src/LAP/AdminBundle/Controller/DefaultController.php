@@ -315,11 +315,11 @@ class DefaultController extends Controller
 		/* Call the Injection service */
 		$inject = $this->container->get('lap_admin.inject');
 		$adminInject = $this->container->get('lap_admin.admininject');
-		
+
 		/* Connected User data */
         $u      = $this->get('security.token_storage')->getToken()->getUser();
         $util   = $inject->connectedUserdatas($u);
-		
+
         $usr = $adminInject->recupusr( $util['id'] );
 
         /* Request for the notifications in the header page */
@@ -357,9 +357,10 @@ class DefaultController extends Controller
 		$form = $this->get('form.factory')->create(UsereditType::class, $usr);
 		
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            $em = $this->getDoctrine()->getManager();
 			$em->flush();
 			$request->getSession()->getFlashBag()->add('notice', 'Votre profil a bien été modifié.');
-			return $this->redirectToRoute('lap_admin_profile');
+			return $this->redirectToRoute('lap_admin_editprofile', array('id' => $util['id']));
 		}
 		
 		return $this->render('LAPAdminBundle:Default:editprofile.html.twig', array(
