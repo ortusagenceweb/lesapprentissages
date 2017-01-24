@@ -360,7 +360,7 @@ class DefaultController extends Controller
             $em = $this->getDoctrine()->getManager();
 			$em->flush();
 			$request->getSession()->getFlashBag()->add('notice', 'Votre profil a bien été modifié.');
-			return $this->redirectToRoute('lap_admin_editprofile', array('id' => $util['id']));
+			return $this->redirectToRoute('lap_admin_profile');
 		}
 		
 		return $this->render('LAPAdminBundle:Default:editprofile.html.twig', array(
