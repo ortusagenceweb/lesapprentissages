@@ -179,4 +179,38 @@ class LAPInject extends Controller
         }
         return $tb;
     }
+
+    public function formatTextMessagerieTable($t, $mesmessages)
+    {
+        /* Formatting text for viewing in admin messagerie table */
+        foreach($mesmessages as $key => $message)
+        {
+            $txt = $mesmessages[$key]['texte'];
+            $txtcuted = $t->cuttext($txt);
+            $mesmessages[$key]['texte'] = ( trim(strip_tags(substr($txtcuted, 0, 80))) );
+        }
+        return $mesmessages;
+    }
+
+    public function setNotificationStatus($val, $notif)
+    {
+        switch( $val )
+        {
+            case 'statut-1':
+                return $notif->setStatut(1);
+                break;
+            case 'statut-2':
+                return $notif->setStatut(2);
+                break;
+            case 'statut-3':
+                return $notif->setStatut(3);
+                break;
+            case 'statut-4':
+                return $notif->setStatut(4);
+                break;
+            case 'statut-5':
+                return $notif->setStatut(5);
+                break;
+        }
+    }
 }
