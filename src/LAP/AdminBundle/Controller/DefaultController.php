@@ -320,7 +320,7 @@ class DefaultController extends Controller
         $u      = $this->get('security.token_storage')->getToken()->getUser();
         $util   = $inject->connectedUserdatas($u);
 		
-        $usr = $adminInject->recupusr($userid);
+        $usr = $adminInject->recupusr( $util['id'] );
 
         /* Request for the notifications in the header page */
         $listes = $inject->miniListes( $util['id'] );
@@ -343,13 +343,13 @@ class DefaultController extends Controller
 	{
 		/* Call the Injection service */
 		$inject = $this->container->get('lap_admin.inject');
-		$adminInject = $this->container->get('lap_admin.admininject');
+        $adminIject = $this->container->get('lap_admin.admininject');
 
 		/* Connected User data */
 		$u = $this->get('security.token_storage')->getToken()->getUser();
 		$util = $inject->connectedUserdatas($u);
 
-        $usr = $adminIject->recupusr($id);
+        $usr = $adminIject->recupusr($util['id']);
 
         /* Request for the notifications in the header page */
         $listes = $inject->miniListes( $util['id'] );
