@@ -155,6 +155,7 @@ class DefaultController extends Controller
         $listes = $inject->miniListes( $util['id'] );
 		
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+		    $em = $this->getDoctrine()->getManager();
 			$em->flush();
 			$request->getSession()->getFlashBag()->add('notice', 'Votre article a bien été modifié.');
 			return $this->redirectToRoute('lap_admin_homepage');
@@ -193,6 +194,7 @@ class DefaultController extends Controller
         $listes = $inject->miniListes( $util['id'] );
 		
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            $em = $this->getDoctrine()->getManager();
 			$em->remove($article);
 			$em->flush();
 
